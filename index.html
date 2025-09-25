@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV比較ツール</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Web版 CSV比較ツール</h1>
+        <p>2つのCSVファイルを選択して比較し、差分を分析します。</p>
+
+        <div class="file-selection-area">
+            <div class="file-input-wrapper">
+                <label for="fileA">File A:</label>
+                <div class="custom-file-input">
+                    <input type="file" id="fileA" name="fileA" accept=".csv">
+                    <span class="file-name" id="fileAName">ファイルが選択されていません</span>
+                    <button type="button" class="select-file-btn" id="selectFileABtn">ファイルを選択</button>
+                </div>
+            </div>
+            <div class="file-input-wrapper">
+                <label for="fileB">File B:</label>
+                <div class="custom-file-input">
+                    <input type="file" id="fileB" name="fileB" accept=".csv">
+                    <span class="file-name" id="fileBName">ファイルが選択されていません</span>
+                    <button type="button" class="select-file-btn" id="selectFileBBtn">ファイルを選択</button>
+                </div>
+            </div>
+        </div>
+
+        <button id="compareBtn">比較実行</button>
+
+        <div id="result-summary" class="result-summary">
+            <h2>分析結果サマリー</h2>
+            <pre id="summary-content">ここに結果が表示されます。</pre>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

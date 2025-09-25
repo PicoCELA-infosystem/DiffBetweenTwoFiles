@@ -6,14 +6,14 @@ import sys # 引数を扱うために追加
 def read_file_with_line_numbers(filepath):
     """
     ファイルを読み込み、行の内容をキー、行番号のリストを値とする辞書を返す。
-    ヘッダー（先頭2行）と空行は無視する。
+    ヘッダー（先頭1行）と空行は無視する。
     """
     lines_map = {}  # key: line_content, value: [line_number, ...]
     try:
         with open(filepath, 'r', encoding='utf-8', newline='') as f:
             # enumerate(f, 1) で1から始まる行番号を取得
             for i, line in enumerate(f, 1):
-                if i <= 2:  # ヘッダーの2行をスキップ
+                if i <= 1:  # ヘッダーの1行をスキップ
                     continue
                 content = line.strip()
                 if content:
@@ -63,10 +63,12 @@ def analyze_and_compare_csv_files(file1_path, file2_path, output_dir):
     in_both_files_contents = sorted(list(unique_contents1 & unique_contents2))
 
     # 内容から行番号と内容のペアに変換
-    # 複数の行番号がある場合は、最初のものを代表として使用
-    only_in_file1 = [(lines1_map[c][0], c) for c in only_in_file1_contents]
-    only_in_file2 = [(lines2_map[c][0], c) for c in only_in_file2_contents]
-    in_both_files = [(lines1_map[c][0], c) for c in in_both_files_contents]
+    # 複数の行番号がある場合は最初のものを代表として使用し、行番号でソートする
+    # 修正: 複数の行番号がある場合、すべてを展開して結果に含める
+    only_in_file1 = sorted([(num, c) for c in only_in_file1_contents for num in lines1_map[c]])
+    only_in_file2 = sorted([(num, c) for c in only_in_file2_contents for num in lines2_map[c]])
+    # in_bothは、file1の行番号を代表として使うか、両方含めるか仕様によるが、ここではfile1を代表とする
+    in_both_files = sorted([(lines1_map[c][0], c) for c in in_both_files_contents])
 
     # --- 結果の表示 ---
     # (表示内容は変更なし)

@@ -1,0 +1,113 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+.container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: #444;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+p {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #666;
+}
+
+.file-selection-area {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.file-input-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+/* カスタムファイル選択ボタンのスタイル */
+.custom-file-input {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #e9ecef;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+.custom-file-input input[type="file"] {
+    /* ネイティブのファイル選択ボタンを隠す */
+    display: none;
+}
+
+.custom-file-input .file-name {
+    flex-grow: 1;
+    padding: 0 10px;
+    color: #6c757d;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.custom-file-input .select-file-btn {
+    /* 既存のbuttonスタイルを上書き */
+    width: auto;
+    margin: 0;
+    padding: 8px 15px;
+    font-size: 14px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.result-summary {
+    background-color: #e9ecef;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 15px;
+}
+
+.result-summary h2 {
+    margin-top: 0;
+    font-size: 18px;
+}
+
+#summary-content {
+    font-family: 'Courier New', Courier, monospace;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin: 0;
+}
