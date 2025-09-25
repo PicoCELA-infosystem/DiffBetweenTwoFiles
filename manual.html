@@ -1,99 +1,97 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSV Comparison Tool - User Manual</title>
+    <title>Web版 CSV比較ツール 使い方マニュアル</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="container">
-        <h1>CSV Comparison Tool - User Manual</h1>
+        <h1>Web版 CSV比較ツール 使い方マニュアル</h1>
+<h2>1. はじめに</h2>
+<p>このツールは、2つのCSVファイルを行単位で比較し、どの行が追加/削除されたのか、あるいはファイル内で重複しているのかを分析します。</p>
+<p>このマニュアルでは、比較の元となるExcelファイルから <strong>「比較用のCSVファイル」を準備する手順</strong> と、<strong>Webツールの操作方法</strong> を説明します。</p>
+<hr>
+<h2>2. Step 1: 比較用CSVファイルの準備（Excelでの作業）</h2>
+<p>このツールは、各行がユニーク（一意）なデータであることを前提として比較を行います。
+しかし、元のExcelファイルの「契約管理ID」のように、単一の列だけではデータが重複していて比較できない場合があります。</p>
+<p>そのため、最初にExcel上で複数の列を結合し、<strong>比較用の「ユニークキー」</strong> を作成する必要があります。</p>
+<h3>2.1. ユニークキーの作成</h3>
+<ol>
+<li>比較したいExcelファイル（例: <code>テストー前から.xlsx</code>）を開きます。</li>
+<li>新しいSheet2を作成し（例: A列）に、1行目に「ユニークキー」などのヘッダー名を入力します。</li>
+<li>2行目のセルに、ユニークにしたい列を結合する数式を入力します。
+<ul>
+<li>例: <code>A列</code>の「契約管理ID」と<code>AG列</code>の「2025-08の金額」を結合する場合</li>
+<li><strong>数式: <code>sheet1!A2&amp;"+"&amp;sheet1!AG2</code></strong></li>
+<li>この数式により、<code>2003990</code> と <code>13125</code> が <code>2003990+13125</code> という一つの文字列になります。</li>
+</ul>
+<p><img src="images/2025-09-25_19h32_21.png" alt=""></p>
+</li>
+<li>数式を入力したセルの右下隅（フィルハンドル）をダブルクリックし、最終行まで数式をコピーします。
+<p><img src="images/2025-09-25_19h30_55.png" alt=""></p>
+</li>
+</ol>
+<h3>2.2. CSVファイルとして保存</h3>
+<ol>
+<li>Excelで新しいシートを追加します。</li>
+<li>先ほど作成した「ユニークキー」のSheet2のA列（ヘッダー行を含む）この新しいシートだけが表示されている状態で、<code>ファイル</code> &gt; <code>名前を付けて保存</code> を選択します。</li>
+<li>ファイルの種類で <strong>「CSV UTF-8 (コンマ区切り)(*.csv)」</strong> を選択し、<code>File_A.csv</code> のような名前で保存します。
+<p><img src="images/2025-09-25_19h40_19.png" alt=""></p>
+</li>
+<li><strong>比較したいもう一方のExcelファイル（例: <code>テスト－後から.xlsx</code>）でも、上記 2.1 と 2.2 の手順を繰り返し、<code>File_B.csv</code> を作成します。</strong></li>
+</ol>
+<h3>2.3 1行目を削除</h3>
+<ol>
+<li>1行目がヘッダとして識別します。保存したFile_A.csv,File_B.csvを開いて1行目をヘッダ、2行目以降からデータが始まるようにします。
+<p><img src="images/2025-09-25_19h42_25.png" alt="">
+<img src="images/2025-09-25_19h43_26.png" alt=""></p>
+</li>
+</ol>
+<hr>
+<h2>3. Step 2: Webツールでの比較</h2>
+<p>比較用のCSVファイルが2つ準備できたら、Webツールで比較を実行します。</p>
+<h3>3.1. ファイルの選択</h3>
+<ol>
+<li>画面の「File A」エリアにある <strong>「ファイルを選択」</strong> ボタンをクリックし、先ほど作成した <code>File_A.csv</code> を選びます。</li>
+<li>同様に、「File B」エリアで <code>File_B.csv</code> を選びます。
+<p><img src="images/2025-09-25_19h44_56.png" alt=""></p>
+</li>
+</ol>
+<h3>3.2. 比較の実行</h3>
+<p>2つのファイルを選択したら、青い <strong>「比較実行」</strong> ボタンをクリックします。</p>
+<h3>3.3. 結果の確認とダウンロード</h3>
+<ol>
+<li><strong>サマリー表示</strong>: 処理が終わると、画面に分析結果の概要が表示されます。</li>
+<li><strong>ZIPダウンロード</strong>: 同時に、詳細な分析結果を含むZIPファイル (<code>analysis_results.zip</code>) が自動でダウンロードされます。
+<p><img src="images/2025-09-25_19h46_59.png" alt=""></p>
+</li>
+</ol>
+<hr>
+<h2>4. ダウンロードされるファイルの内容</h2>
+<p>ダウンロードされた <code>analysis_results.zip</code> ファイルには、以下の6つのファイルが含まれています。
+各CSVファイルの1列目には、元のファイルでの行番号が記載されています。</p>
+<ul>
+<li><strong><code>only_in_File_A.csv</code></strong>: 「File A」にのみ存在した行のリスト</li>
+<li><strong><code>only_in_File_B.csv</code></strong>: 「File B」にのみ存在した行のリスト</li>
+<li><strong><code>in_both.csv</code></strong>: 両方のファイルに共通して存在した行のリスト</li>
+<li><strong><code>duplicates_in_File_A.csv</code></strong>: 「File A」のファイル内で内容が重複していた行のリスト</li>
+<li><strong><code>duplicates_in_File_B.csv</code></strong>: 「File B」のファイル内で内容が重複していた行のリスト</li>
+<li><strong><code>README.md</code></strong>: 上記5つのファイルについての説明が書かれたドキュメント</li>
+</ul>
+<hr>
+<h2>5. 補足: ツールの特徴</h2>
+<ul>
+<li><strong>インストール不要</strong>: Webブラウザだけで動作します。</li>
+<li><strong>セキュア</strong>: ファイルは外部のサーバーに送信されず、すべての処理はご自身のPC内で完結するため、安心してご利用いただけます。</li>
+</ul>
 
-        <h2>1. Introduction</h2>
-        <p>This tool compares two CSV files line by line to analyze which rows have been added, deleted, or are duplicated within a file.</p>
-        <p>This manual explains the procedure for preparing "CSV files for comparison" from the original Excel files and how to operate the web tool.</p>
-
-        <hr>
-
-        <h2>2. Step 1: Preparing CSV Files for Comparison (Excel Work)</h2>
-        <p>This tool assumes that each row of data is unique for comparison. However, in some cases, like the "Contract Management ID" in the original Excel file, a single column may contain duplicate data, making comparison impossible.</p>
-        <p>Therefore, you first need to combine multiple columns in Excel to create a <strong>"unique key" for comparison</strong>.</p>
-
-        <h3>2.1. Creating a Unique Key</h3>
-        <ol>
-            <li>Open the Excel file you want to compare (e.g., `Test-Before.xlsx`).</li>
-            <li>In a new sheet (Sheet2), enter a header name like "Unique Key" in the first row of a column (e.g., column A).</li>
-            <li>In the second-row cell, enter a formula to concatenate the columns you want to make unique.
-                <ul>
-                    <li>Example: To combine "Contract Management ID" from column `A` and "Amount for 2025-08" from column `AG` of Sheet1.</li>
-                    <li><strong>Formula: `=Sheet1!A2&"+"&Sheet1!AG2`</strong></li>
-                    <li>This formula combines `2003990` and `13125` into a single string `2003990+13125`.</li>
-                </ul>
-                <img src="images/2025-09-25_19h32_21.png" alt="Excel formula input example" style="width:100%; max-width:600px; margin-top:10px;">
-            </li>
-            <li>Double-click the fill handle (the small square at the bottom-right corner) of the cell with the formula to copy it down to the last row.
-                <img src="images/2025-09-25_19h30_55.png" alt="Completed unique key column example" style="width:100%; max-width:600px; margin-top:10px;">
-            </li>
-        </ol>
-
-        <h3>2.2. Saving as a CSV File</h3>
-        <ol>
-            <li>With only the new sheet containing the "Unique Key" column visible, go to `File` > `Save As`.</li>
-            <li>For the file type, select <strong>"CSV UTF-8 (Comma delimited) (*.csv)"</strong> and save it with a name like `File_A.csv`.
-                <img src="images/2025-09-25_19h40_19.png" alt="Save as CSV example" style="width:100%; max-width:600px; margin-top:10px;">
-            </li>
-            <li><strong>Repeat steps 2.1 and 2.2 for the other Excel file you want to compare (e.g., `Test-After.xlsx`) to create `File_B.csv`.</strong></li>
-        </ol>
-
-        <h3>2.3. Ensure Header is on the First Line</h3>
-        <ol>
-            <li>The tool identifies the first line as a header. Open the saved `File_A.csv` and `File_B.csv` to ensure the header is on the first line and data starts from the second line.</li>
-        </ol>
-        <img src="images/2025-09-25_19h42_25.png" alt="CSV File A example" style="width:48%; max-width:300px;">
-        <img src="images/2025-09-25_19h43_26.png" alt="CSV File B example" style="width:48%; max-width:300px;">
-
-        <hr>
-
-        <h2>3. Step 2: Comparison with the Web Tool</h2>
-        <p>Once you have prepared the two CSV files for comparison, you can run the comparison with the web tool.</p>
-
-        <h3>3.1. File Selection</h3>
-        <ol>
-            <li>Click the <strong>"Select File"</strong> button in the "File A" area and choose the `File_A.csv` you just created.</li>
-            <li>Similarly, choose `File_B.csv` in the "File B" area.
-                <img src="images/2025-09-25_19h44_56.png" alt="File selection screen example" style="width:100%; max-width:600px; margin-top:10px;">
-            </li>
-        </ol>
-
-        <h3>3.2. Executing the Comparison</h3>
-        <p>After selecting both files, click the blue <strong>"Compare"</strong> button.</p>
-
-        <h3>3.3. Checking the Results and Downloading</h3>
-        <ol>
-            <li><strong>Summary Display</strong>: Once the processing is complete, a summary of the analysis results will be displayed on the screen.</li>
-            <li><strong>ZIP Download</strong>: Simultaneously, a ZIP file (`analysis_results.zip`) containing the detailed analysis results will be automatically downloaded.
-                <img src="images/2025-09-25_19h46_59.png" alt="Result summary screen example" style="width:100%; max-width:600px; margin-top:10px;">
-            </li>
-        </ol>
-
-        <hr>
-
-        <h2>4. Contents of the Downloaded File</h2>
-        <p>The downloaded `analysis_results.zip` file contains six files. The first column of each CSV file indicates the original line number in the source file.</p>
-        <ul>
-            <li><strong>`only_in_File_A.csv`</strong>: List of rows that exist only in "File A".</li>
-            <li><strong>`only_in_File_B.csv`</strong>: List of rows that exist only in "File B".</li>
-            <li><strong>`in_both.csv`</strong>: List of rows common to both files.</li>
-            <li><strong>`duplicates_in_File_A.csv`</strong>: List of rows that were duplicated within "File A".</li>
-            <li><strong>`duplicates_in_File_B.csv`</strong>: List of rows that were duplicated within "File B".</li>
-            <li><strong>`README.md`</strong>: A document explaining the contents of the five files above.</li>
-        </ul>
     </div>
 
     <footer>
-        <a href="index.html">Back to Tool</a> | &copy; 2024 konuma
+        <a href="index.html">ツール</a> | <a href="manual.html">マニュアル</a> | &copy; 2024 konuma
     </footer>
 
 </body>

@@ -6,10 +6,10 @@ const { marked } = require('marked');
 // ここに変換したいファイルを追加します
 const filesToConvert = [
     {
-        markdownPath: path.join(__dirname, '使い方マニュアル.md'),
+        markdownPath: path.join(__dirname, 'manual.md'),
         templatePath: path.join(__dirname, 'template.html'),
         outputPath: path.join(__dirname, '..', 'manual.html'),
-        lang: 'ja' // HTMLの言語属性 (ja: 日本語, en: 英語)
+        lang: 'ja'
     },
     // 他のファイルを追加する場合の例：
     // {
@@ -44,7 +44,16 @@ async function convertMarkdownToHtml(config) {
         const templateContent = await fs.readFile(config.templatePath, 'utf-8');
 
         // 2. MarkdownをHTMLに変換
-        const bodyHtml = marked(markdownContent);
+        // 画像パスを修正するためのカスタムレンダラーを設定
+        const renderer = new marked.Renderer();
+        renderer.image = (href, title, text) => {
+            // パスが'../'で始まる場合、それを取り除いてルートからの相対パスに修正
+            const correctedHref = href.startsWith('../') ? href.substring(3) : href;
+            // alt属性が空でもalt=""が出力されるようにする
+            const altText = text || '';
+            return `<img src="${correctedHref}" alt="${altText}">`;
+        };
+        const bodyHtml = marked(markdownContent, { renderer });
         const title = getTitleFromMarkdown(markdownContent);
 
         // 3. テンプレートのプレースホルダーを置換
