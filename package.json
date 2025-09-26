@@ -1,0 +1,12 @@
+{
+  "name": "csv-diff-tool",
+  "version": "1.0.0",
+  "description": "Web-based CSV comparison tool.",
+  "private": true,
+  "scripts": {
+    "build": "node 計画/build.js"
+  },
+  "dependencies": {
+    "marked": "^13.0.2"
+  }
+}
